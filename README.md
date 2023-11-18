@@ -9,8 +9,8 @@ pip install --upgrade openai
 ## Table of contents:
 - [Pre-requisites](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#pre-requisites)
 - [Option 1: Testing without seed](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#option-1-testing-without-seed)
-- [Option 2: Testing with seed]()
-- [Verifying reproducible outcome]()
+- [Option 2: Testing with seed](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#option-2-testing-with-seed)
+- [Verifying reproducible outcome](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#verifying-reproducible-outcome)
 
 ## Pre-requisites
 1. Ensure that you deploy GPT model of v1106, either GPT-4-Turbo or GPT-35-Turbo.
