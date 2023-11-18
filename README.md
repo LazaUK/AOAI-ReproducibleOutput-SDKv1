@@ -1,5 +1,5 @@
 # Reproducible output with Azure OpenAI GPT-4-Turbo v1106
-Generating reproducible output in GPT-4-Turbo with the "seed" parameter in Python SDK v1.x. This feature was originally announced by OpenAI during their Dev Day on 6th of November, and is available in Azure OpenAI from 17th of November.
+Generating reproducible output in GPT-4-Turbo with the "seed" parameter in Python SDK v1.x. This feature was originally announced by OpenAI during their Dev Day on 6th of November, and is available now in Azure OpenAI as of 17th of November.
 
 To use the latest version of openai python packahe, you can upgrade it wth the following pip command:
 ```
@@ -8,7 +8,7 @@ pip install --upgrade openai
 
 ## Table of contents:
 - [Pre-requisites](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#pre-requisites)
-- [Option 1: Testing without seed]()
+- [Option 1: Testing without seed](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#option-1-testing-without-seed)
 - [Option 2: Testing with seed]()
 - [Verifying reproducible outcome]()
 
@@ -21,14 +21,14 @@ pip install --upgrade openai
 4. All the other parameters (like "**temperature**", "**messages**", etc.) in the Chat Completions API call should also stay the same.
 
 ## Option 1: Testing without seed
-To test the model's behaviour when temperature is above 0, we create a simple lits with 2 identical prompts:
+1. To test the model's behaviour when temperature is above 0, we create a simple lits with 2 identical prompts:
 ``` JSON
 [
     "Create a story about red panda.",
     "Create a story about red panda."
 ]
 ```
-If we'll submit it now to GPT-4-Turbo with the temperature value of 0.1 and without seed paramater:
+2. If we'll submit it now to GPT-4-Turbo with the temperature value of 0.1 and without seed paramater:
 ``` Python
 completion = client.chat.completions.create(
     model = AOAI_Deployment, # model = "Azure OpenAI deployment name".
@@ -39,7 +39,7 @@ completion = client.chat.completions.create(
     ]        
 )
 ```
-Then we may get slightly differenet outputs for two separate submissiosn of the same prompt:
+3. Here we may get slightly different outputs for two separate submissions of the same prompt:
 ``` JSON
 --------------------
 In the lush forests of the Himalayas, a curious red panda named Pabu spent his days frolicking among the trees. One day, Pabu stumbled upon a hidden grove filled with the sweetest bamboo he'd ever tasted, but it was guarded by a mischievous monkey. With cleverness and a dash of bravery, Pabu outwitted the monkey, sharing the grove's bounty with his fellow pandas, becoming a legend in the forest.
@@ -48,7 +48,39 @@ In the lush forests of the Himalayas, a curious red panda named Pabu spent his d
 --------------------
 ```
 
-
 ## Option 2: Testing with seed
+1. Now we can submit the same pair of prompts to GPT-4-Turbo with our new seed parameter:
+``` Python
+completion = client.chat.completions.create(
+    model = AOAI_Deployment, # model = "Azure OpenAI deployment name".
+    temperature = 0.1,
+    **seed = 42,**
+    messages = [
+        {"role": "system", "content": "You always produce 3-sentence answers."},
+        {"role": "user", "content": prompt}
+    ]        
+)
+```
+2. The model will try to produce the same output "almost always":
+``` JSON
+--------------------
+In the lush forests of the Himalayas, a curious red panda named Pabu spent his days frolicking among the trees. One day, Pabu stumbled upon a hidden grove filled with the sweetest bamboo he had ever tasted, which he decided to keep as his secret snack spot. Little did he know, his delightful discovery would soon attract other forest creatures, leading to unexpected friendships and adventures.
+--------------------
+In the lush forests of the Himalayas, a curious red panda named Pabu spent his days frolicking among the trees. One day, Pabu stumbled upon a hidden grove filled with the sweetest bamboo he had ever tasted, which he decided to keep as his secret snack spot. Little did he know, his delightful discovery would soon attract other forest creatures, leading to unexpected friendships and adventures.
+--------------------
+```
 
 ## Verifying reproducible outcome
+1. To verify the outcomes of both scenarios, we'll use Python's difflib package:
+``` Python
+import difflib as dl
+differenciator = dl.Differ()
+```
+2. For the first scenario, it will help us to find differences between 2 produced completions:
+``` JSON
+Found these differences between completions: ['but', 'it', 'which', 'he', 'decided', 'to', 'keep', 'was', 'as', 'guarded', 'by', 'his', 'secret', 'snack', 'spot.', 'Little', 'did', 'he', 'know,', 'his', 'delightful', 'discovery', 'would', 'soon', 'attract', 'mischievous', 'monkey.', 'With', 'cleverness', 'and', 'band', 'a', 'dash', 'bravery,', 'Pabu', 'outwitted', 'the', 'monkey,', 'sharing', 'the', "grove's", 'bounty', 'with', 'his', 'leading', 'to', 'becoming', 'a', 'legend', 'in', 'most', 'enchanting', 'bamboo', 'feasts', 'the', 'forest.', 'forest', 'had', 'ever', 'seen.']
+```
+3. For the second scenario, Differ's compare function will verify that they are identical:
+``` JSON
+No difference found between completions with seed
+```
