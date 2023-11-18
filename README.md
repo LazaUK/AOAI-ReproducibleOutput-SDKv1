@@ -1,15 +1,15 @@
 # Reproducible output with Azure OpenAI GPT-4-Turbo v1106
-Generating reproducible output in GPT-4-Turbo with the "seed" parameter in Python SDK v1.x. This feature was originally announced by OpenAI during their Dev Day on 6th of November, and is available now in Azure OpenAI as of 17th of November.
+In the attached Jupyter notebook, I'll demo how to generate reproducible output in GPT-4-Turbo with the new "seed" parameter. This feature was originally announced by OpenAI during their Dev Day on 6th of November, and is available now in Azure OpenAI as of 17th of November.
 
-To use the latest version of openai python packahe, you can upgrade it wth the following pip command:
+Provided code runs on OpenAI Python SDK v1.x. To use the latest version of *openai* python package, you can upgrade it wth the following pip command:
 ```
 pip install --upgrade openai
 ```
 
 ## Table of contents:
 - [Pre-requisites](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#pre-requisites)
-- [Option 1: Testing without seed](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#option-1-testing-without-seed)
-- [Option 2: Testing with seed](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#option-2-testing-with-seed)
+- [Scenario 1: Testing without seed](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#option-1-testing-without-seed)
+- [Scenario 2: Testing with seed](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#option-2-testing-with-seed)
 - [Verifying reproducible outcome](https://github.com/LazaUK/AOAI-ReproducibleOutput-SDKv1#verifying-reproducible-outcome)
 
 ## Pre-requisites
@@ -20,7 +20,7 @@ pip install --upgrade openai
 3. To "almost always" reproduce the same output, your "**seed**" parameter should be set to the same integer value. In this example, it's set to **42**.
 4. All the other parameters (like "**temperature**", "**messages**", etc.) in the Chat Completions API call should also stay the same.
 
-## Option 1: Testing without seed
+## Scenario 1: Testing without seed
 1. To test the model's behaviour when temperature is above 0, we create a simple lits with 2 identical prompts:
 ``` JSON
 [
@@ -48,7 +48,7 @@ In the lush forests of the Himalayas, a curious red panda named Pabu spent his d
 --------------------
 ```
 
-## Option 2: Testing with seed
+## Scenario 2: Testing with seed
 1. Now we can submit the same pair of prompts to GPT-4-Turbo with our new seed parameter:
 ``` Python
 completion = client.chat.completions.create(
