@@ -17,7 +17,7 @@ pip install --upgrade openai
 ![screenshot_0_deployment](images/seed_pr_1_deployment.png)
 2. Set API endpoint name, version and key, along with the Azure OpenAI deployment name to the relevant environment variables. Provided code assumes that the environment variables are **OPENAI_API_BASE**, **OPENAI_API_VERSION**, **OPENAI_API_KEY** and **OPENAI_API_DEPLOY**.
 ![screenshot_0_deployment](images/seed_pr_1_environment.png)
-3. To "almost always" reproduce the same output, your "**seed**" parameter should be set to the same integer value. In this example, it's set to **42**.
+3. To "almost always" reproduce the same output, your "**seed**" parameter should always use the same integer value. In this example, it's set to **42**.
 4. All the other parameters (like "**temperature**", "**messages**", etc.) in the Chat Completions API call should also stay the same.
 
 ## Scenario 1: Testing without seed
