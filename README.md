@@ -82,5 +82,5 @@ Found these differences between completions: ['but', 'it', 'which', 'he', 'decid
 ```
 3. For the second scenario, Differ's compare function will verify that they are identical:
 ``` JSON
-No difference found between completions with seed
+No differences found between completions.
 ```
